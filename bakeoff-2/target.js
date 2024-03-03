@@ -21,19 +21,6 @@ class Target
   // and its label
   draw()
   {
-    let last_label_char = this.label.charAt(this.label.length - 1);
-    
-    switch (last_label_char.toUpperCase()) {
-      case 'A':
-        fill(color(155,155,155));
-        break;
-    
-      default:
-        fill(color(155,155,0));
-        break;
-    }
-
-
     // Draw target
     // fill(color(155,155,155));                 
     circle(this.x, this.y, this.width);
