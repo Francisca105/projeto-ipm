@@ -8,7 +8,6 @@ class Target
     this.width  = w;
     this.label  = l;
     this.id     = id;
-    this.color = color(155,155,155)
   }
   
   // Checks if a mouse click took place
@@ -20,68 +19,62 @@ class Target
   
   // Draws the target (i.e., a circle)
   // and its label
-
-  draw()
+  draw(bg_color, first, last)
   {
-    let nd_l = this.label.charAt(1).toLowerCase();
-    switch (nd_l) {
-      case 'a':
-        console.log("A");
-        let rd_l = this.label.charCodeAt(2) - "a".charCodeAt(0);
-        this.color = color(82, 69, 0); // Amarelo coco
-        // this.color = color(82, 69, rd_l); // Amarelo coco
-        // console.log(rd_l)
-
-        break;
-      case 'é':
-      case 'e':
-        this.color = color(57, 166, 35); // Verde
-        break;
-      case 'o':
-        this.color = color(166, 90, 20); // Alaranjado
-        break;
-      case 'r':
-        this.color = color(140, 17, 6); // Vermelho
-        break;
-      case 'u':
-        this.color = color(22, 125, 99); // Azul Esverdeado
-        break;
-      case 'i':
-        this.color = color(99, 22, 125); // Roxo
-        break;
-      case 'y':
-        this.color = color(19, 17, 105); // Azul
-        break;
-      case 'h':
-        this.color = color(196, 33, 156); // Cor de rosa
-        break;
-      case 'l':
-        this.color = color(66, 71, 77); // Cinzento
-        break;
-      case 'n':
-        this.color = color(209, 113, 40); // Laranja Laranja
-        break;
-      default:
-        console.log(nd_l)
-        this.color = color(0,0,0); // Não acontece - preto
-        break;
-    }
-
-    let regex = /[șłš]/g;
-    if(this.label.match(regex)) {
-      stroke(color(150,150,150))
-      strokeWeight(2)
-    }
-
+     stroke(0);
     // Draw target
-    fill(this.color); 
+    fill(bg_color);                 
     circle(this.x, this.y, this.width);
+    // Draw black inner circle to contrast with text
+    fill(color(0, 0, 0));
+    circle(this.x, this.y, this.width * 0.85);
     
     // Draw label
-    noStroke();
     textFont("Arial", 12);
     fill(color(255,255,255));
     textAlign(CENTER);
     text(this.label, this.x, this.y);
+
+    // Law of proximity: draw a box around the target
+    // Law of common region: draw a box around the target
+    // Law of similarity: draw a box around the target
+    // Law of connectedness: draw a box around the target
+     // Miller's Law: Only have less than 7 colors in the design
+    // Hick's Law: don't divide the targets into categories because there would 2 searches necessary
+
+    // Draw boxes around same letter targets and a big letter before each new letter
+    if (first)
+    {
+      textFont("Arial", 36);
+      fill(color(255, 255, 0));
+      textAlign(CENTER);
+      stroke(255, 0, 0);
+      strokeWeight(4);
+      text(this.label[1], this.x - this.width * 3/4, this.y + this.width/8);
+
+      strokeWeight(1);
+      noFill();
+      stroke(255);
+    }
+    if (last)
+    {
+      noFill();
+      stroke(255);
+      // quarter circle at the top of the target
+    }
+    if (!first && !last) {
+      noFill();
+      stroke(255);
+    }
+    noStroke();
+
+    textFont("Arial", 16);
+    fill(color(255, 255, 255));
+  }
+
+  // I made a getter for the label so I can access it in sketch.js in order to know when the second letter changes.
+  getLabel()
+  {
+    return this.label;
   }
 }
