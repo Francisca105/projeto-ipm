@@ -39,12 +39,35 @@ function preload()
   legendas = loadTable('legendas.csv', 'csv', 'header');
 }
 
+// Rearranges the data from the 'legendas.csv' file in alphabetical order
+// Uses the insertion sort
+function rearrangeData()
+{
+  legendas.setString(62, 'city', 'Bechar'); // temporarily takes away the special character
+  let i, j, key;
+  for (i = 2; i < legendas.getRowCount(); i++)
+  {
+    key = legendas.getString(i, 'city');
+    j = i - 1;
+
+    while (j >= 1 && legendas.getString(j, 'city') > key)
+    {
+      legendas.setString(j + 1, 'city', legendas.getString(j, 'city'));
+      j = j - 1;
+    }
+    legendas.setString(j + 1, 'city', key);
+  }
+  legendas.setString(27, 'city', 'Béchar'); // gives back the special character
+}
+
 // Runs once at the start
 function setup()
 {
   createCanvas(700, 500);    // window size in px before we go into fullScreen()
   frameRate(60);             // frame rate (DO NOT CHANGE!)
   
+  rearrangeData();           // rearranges the grid in alphabetical order
+
   randomizeTrials();         // randomize the trial order at the start of execution
   drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
 }
@@ -131,7 +154,8 @@ function printAndSavePerformance()
     }
     
     // Adds user performance results
-    let db_ref = database.ref('G' + GROUP_NUMBER);
+    let db_ref = database.ref('Lab4');
+    // let db_ref = database.ref('G' + GROUP_NUMBER);
     db_ref.push(attempt_data);
   }
 }
