@@ -6,7 +6,7 @@
 // p5.js reference: https://p5js.org/reference/
 
 // Database (CHANGE THESE!)
-const GROUP_NUMBER        = 44;      // Add your group number here as an integer (e.g., 2, 3)
+const GROUP_NUMBER        = 0;      // Add your group number here as an integer (e.g., 2, 3)
 const RECORD_TO_FIREBASE  = false;  // Set to 'true' to record user results to Firebase
 
 // Pixel density and setup variables (DO NOT CHANGE!)
@@ -44,10 +44,30 @@ function setup()
 {
   createCanvas(700, 500);    // window size in px before we go into fullScreen()
   frameRate(60);             // frame rate (DO NOT CHANGE!)
-  
+    sortTable();               // sorts the table by the first column (by target labels)
   randomizeTrials();         // randomize the trial order at the start of execution
   drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
 }
+
+function sortTable() {
+  for (var i = 0; i < legendas.getRowCount(); i++)
+  {
+    for (var j = 0; j < legendas.getRowCount(); j++)
+    {
+      if (legendas.getString(i, 1) < legendas.getString(j, 1))
+      {
+        // Swaps the labels
+        let temp = legendas.getString(i, 1);
+        legendas.setString(i, 1, legendas.getString(j, 1));
+        legendas.setString(j, 1, temp);
+
+        // Doesn't swap the ids because it'll break the target order
+
+      }
+    }
+  }
+}
+
 
 // Runs every frame and redraws the screen
 function draw()
@@ -64,7 +84,46 @@ function draw()
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
         
     // Draw all targets
-	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
+	let change = 0;
+    let curr_letter = 'a';
+    let first = true;
+    let last = false;
+
+    // Draw all targets
+	for (var i = 0; i < legendas.getRowCount(); i++) {
+      if (curr_letter != targets[i].getLabel()[1]) {
+        curr_letter = targets[i].getLabel()[1];
+        change++;
+        first = true;
+      }
+
+      if (i == legendas.getRowCount() - 1) {
+        last = true;
+      }
+      else if (targets[i].getLabel()[1] != targets[i+1].getLabel()[1]) {
+        last = true;
+      }
+
+      let bg_color;
+      if (change%6 == 0) {
+        bg_color = color(0, 75, 0);
+      } else if (change%6 == 1) {
+        bg_color = color(128, 0, 0);
+      } else if (change%6 == 2) {
+        bg_color = color(0, 50, 100);
+      } else if (change%6 == 3) {
+        bg_color = color(128, 100, 0);
+      } else if (change%6 == 4) {
+        bg_color = color(100, 0, 100);
+      } else if (change%6 == 5) {
+        bg_color = color(0, 100, 100);
+      }
+
+      targets[i].draw(bg_color, first, last);
+      first = false;
+      last = false;
+    }
+    
     
     // Draws the target label to be selected in the current trial. We include 
     // a black rectangle behind the trial label for optimal contrast in case 
