@@ -65,7 +65,7 @@ function validSize()
 // Starts the test (i.e., target selection task)
 function startTest()
 {
-  if (validID() && validSize())
+  if (/*validID() &&*/ validSize())
   {
     // Saves student and display information
     student_ID = parseInt(student_ID_form.value());

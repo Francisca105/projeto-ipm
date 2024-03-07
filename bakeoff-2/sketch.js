@@ -154,7 +154,7 @@ function printAndSavePerformance()
     }
     
     // Adds user performance results
-    let db_ref = database.ref('Lab4');
+    let db_ref = database.ref('Ze');
     // let db_ref = database.ref('G' + GROUP_NUMBER);
     db_ref.push(attempt_data);
   }
