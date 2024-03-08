@@ -85,7 +85,24 @@ function draw()
     fill(color(255,255,255));
     textAlign(LEFT);
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
-        
+
+    fill(color('#6a00ff'));
+    rect(targets[0].getX()-targets[0].getWidth()/2, targets[0].getY()-targets[0].getWidth()/2, targets[9].getX()+targets[0].getWidth(), targets[0].getWidth(), 100, 0, 0, 100);
+    rect(0, targets[10].getY()-targets[10].getWidth()/2, targets[19].getX()-targets[10].getX()+2*targets[10].getWidth(), targets[10].getWidth());
+    rect(0, targets[20].getY()-targets[20].getWidth()/2, targets[26].getX()+targets[20].getWidth()/2, targets[20].getWidth(), 0, 100, 100, 0);
+
+    fill(color('#ff00ff'));
+    rect(targets[27].getX()-targets[27].getWidth()/2, targets[27].getY()-targets[27].getWidth()/2, targets[29].getX()+targets[0].getWidth(), targets[0].getWidth(), 100, 0, 0, 100);
+    rect(0, targets[30].getY()-targets[30].getWidth()/2, targets[37].getX()+targets[20].getWidth()/2, targets[20].getWidth(), 0, 100, 100, 0);
+
+    fill(color('#ff0040'));
+    rect(targets[38].getX()-targets[38].getWidth()/2, targets[38].getY()-targets[38].getWidth()/2, targets[39].getX()+targets[0].getWidth(), targets[0].getWidth(), 100, 0, 0, 100);
+    rect(0, targets[40].getY()-targets[40].getWidth()/2, targets[40].getX()+targets[40].getWidth()/2, targets[40].getWidth(), 0, 100, 100, 0);
+
+    fill(color('#ff9500'));
+    rect(targets[41].getX()-targets[41].getWidth()/2, targets[41].getY()-targets[41].getWidth()/2, targets[49].getX()-targets[41].getX()+targets[41].getWidth(), targets[10].getWidth(), 100, 100, 100, 100);
+    
+
     // Draw all targets
 	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
     

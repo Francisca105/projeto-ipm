@@ -6,10 +6,14 @@ class Target
     this.x      = x;
     this.y      = y;
     this.width  = w;
-    this.label  = l;
+    this.label  = /*l*/ l /*l.toLowerCAse().substring(0,2)+l.charAt(2).toUpperCase();+l.charAt(3).toUpperCase() + l.substring(4)*/;
     this.id     = id;
     this.color = color(155,155,155)
   }
+
+  getX() { return this.x;}
+  getY() {return this.y;}
+  getWidth() {return this.width;}
   
   // Checks if a mouse click took place
   // within the target
@@ -23,65 +27,67 @@ class Target
 
   draw()
   {
+    let colors;
     let nd_l = this.label.charAt(1).toLowerCase();
     switch (nd_l) {
       case 'a':
-        console.log("A");
-        let rd_l = this.label.charCodeAt(2) - "a".charCodeAt(0);
-        this.color = color(82, 69, 0); // Amarelo coco
-        // this.color = color(82, 69, rd_l); // Amarelo coco
-        // console.log(rd_l)
-
+        colors = '#6a00ff';
         break;
       case 'é':
       case 'e':
-        this.color = color(57, 166, 35); // Verde
-        break;
-      case 'o':
-        this.color = color(166, 90, 20); // Alaranjado
-        break;
-      case 'r':
-        this.color = color(140, 17, 6); // Vermelho
-        break;
-      case 'u':
-        this.color = color(22, 125, 99); // Azul Esverdeado
-        break;
-      case 'i':
-        this.color = color(99, 22, 125); // Roxo
-        break;
-      case 'y':
-        this.color = color(19, 17, 105); // Azul
+        colors ='#ff00ff';
         break;
       case 'h':
-        this.color = color(196, 33, 156); // Cor de rosa
+        colors = '#ff0040';
+        break;
+      case 'i':
+        colors = '#ff9500';
         break;
       case 'l':
-        this.color = color(66, 71, 77); // Cinzento
+        colors = '#ffff00';
         break;
       case 'n':
-        this.color = color(209, 113, 40); // Laranja Laranja
+        colors = '#aaff00';
         break;
-      default:
-        console.log(nd_l)
-        this.color = color(0,0,0); // Não acontece - preto
+      case 'o':
+        colors = '#00ff15';
+        break;
+      case 'r':
+        colors = '#00ffff';
+        break;
+      case 'u':
+        colors = '#0095ff';
+        break;
+      case 'y':
+        colors = '#0000fe';
         break;
     }
 
-    let regex = /[șłš]/g;
+    /*let regex = /[șłš]/g;
     if(this.label.match(regex)) {
       stroke(color(150,150,150))
       strokeWeight(2)
-    }
+    }*/
 
     // Draw target
-    fill(this.color); 
+    fill(colors);
     circle(this.x, this.y, this.width);
+    
+    // Draw inner circle to achieve the stroke effect
+    fill('#000');
+    circle(this.x, this.y, this.width*0.9);
+
+    // // Draw target
+    // fill(this.color); 
+    // circle(this.x, this.y, this.width);
     
     // Draw label
     noStroke();
-    textFont("Arial", 12);
+    textFont("Arial", 16);
     fill(color(255,255,255));
     textAlign(CENTER);
+    nd_l = nd_l.toUpperCase();
+    let city = this.label.charAt(0)  + nd_l + this.label.substring(2);
     text(this.label, this.x, this.y);
   }
 }
