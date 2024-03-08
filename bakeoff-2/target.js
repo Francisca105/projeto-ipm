@@ -6,7 +6,7 @@ class Target
     this.x      = x;
     this.y      = y;
     this.width  = w;
-    this.label  = /*l*/ l /*l.toLowerCAse().substring(0,2)+l.charAt(2).toUpperCase();+l.charAt(3).toUpperCase() + l.substring(4)*/;
+    this.label  = l.toLowerCase() /*l.toLowerCase().substring(0,2)+l.charAt(2).toUpperCase()+l.charAt(3).toUpperCase()+l.toLowerCase().substring(4)*/;
     this.id     = id;
     this.color = color(155,155,155)
   }
@@ -44,10 +44,10 @@ class Target
         colors = '#ff9500';
         break;
       case 'l':
-        colors = '#ffff00';
+        colors = '#40380f';
         break;
       case 'n':
-        colors = '#aaff00';
+        colors = '#0f400f';
         break;
       case 'o':
         colors = '#00ff15';
@@ -63,11 +63,11 @@ class Target
         break;
     }
 
-    /*let regex = /[șłš]/g;
+    let regex = /[șłš]/g;
     if(this.label.match(regex)) {
-      stroke(color(150,150,150))
-      strokeWeight(2)
-    }*/
+      stroke("#000000")
+      strokeWeight(1)
+    }
 
     // Draw target
     fill(colors);

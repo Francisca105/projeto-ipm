@@ -101,7 +101,18 @@ function draw()
 
     fill(color('#ff9500'));
     rect(targets[41].getX()-targets[41].getWidth()/2, targets[41].getY()-targets[41].getWidth()/2, targets[49].getX()-targets[41].getX()+targets[41].getWidth(), targets[10].getWidth(), 100, 100, 100, 100);
-    
+
+
+    fill(color('#00ff15'));
+    rect(targets[52].getX()-targets[52].getWidth()/2, targets[52].getY()-targets[52].getWidth()/2, targets[55].getX()-targets[52].getX()+targets[52].getWidth(), targets[0].getWidth(), 100, 100, 100, 100);
+
+    fill(color('#00ffff'));
+    rect(targets[56].getX()-targets[56].getWidth()/2, targets[56].getY()-targets[56].getWidth()/2, targets[29].getX()+targets[0].getWidth(), targets[0].getWidth(), 100, 0, 0, 100);
+    rect(0, targets[60].getY()-targets[60].getWidth()/2, targets[68].getX()+targets[60].getWidth()/2, targets[60].getWidth(), 0, 100, 100, 0);
+
+    fill(color('#0095ff'));
+    rect(targets[69].getX()-targets[69].getWidth()/2, targets[69].getY()-targets[69].getWidth()/2, targets[69].getX()+targets[0].getWidth(), targets[0].getWidth(), 100, 0, 0, 100);
+    rect(0, targets[70].getY()-targets[70].getWidth()/2, targets[78].getX()+targets[70].getWidth()/2, targets[70].getWidth(), 0, 100, 100, 0);
 
     // Draw all targets
 	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
