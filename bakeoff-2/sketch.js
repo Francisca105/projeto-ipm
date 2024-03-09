@@ -7,7 +7,7 @@
 
 // Database (CHANGE THESE!)
 const GROUP_NUMBER        = 44;      // Add your group number here as an integer (e.g., 2, 3)
-const RECORD_TO_FIREBASE  = false;  // Set to 'true' to record user results to Firebase
+const RECORD_TO_FIREBASE  = true;  // Set to 'true' to record user results to Firebase
 
 // Pixel density and setup variables (DO NOT CHANGE!)
 let PPI, PPCM;
@@ -32,6 +32,9 @@ let targets               = [];
 const GRID_ROWS           = 8;      // We divide our 80 targets in a 8x10 grid
 const GRID_COLUMNS        = 10;     // We divide our 80 targets in a 8x10 grid
 
+// Some added constants
+const BIG_NUMBER          = 5000;   // used to create retangles that go till the end of the screen
+
 // Ensures important data is loaded before the program starts
 function preload()
 {
@@ -50,7 +53,7 @@ function rearrangeData()
     key = legendas.getString(i, 'city');
     j = i - 1;
 
-    while (j >= 1 && legendas.getString(j, 'city') > key)
+    while (j >= 0 && legendas.getString(j, 'city') > key)
     {
       legendas.setString(j + 1, 'city', legendas.getString(j, 'city'));
       j = j - 1;
@@ -69,7 +72,7 @@ function setup()
   rearrangeData();           // rearranges the grid in alphabetical order
 
   randomizeTrials();         // randomize the trial order at the start of execution
-  drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
+  drawUserIDScreenTemp();        // draws the user start-up screen (student ID and display size)
 }
 
 // Runs every frame and redraws the screen
@@ -85,8 +88,17 @@ function draw()
     fill(color(255,255,255));
     textAlign(LEFT);
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
-        
-    // Draw all targets
+
+    // Draws the retangles behind the targets
+    drawColoredZone(0, 26, '#6a00ff');
+    drawColoredZone(27, 37, '#ff00ff');
+    drawColoredZone(38, 40, '#ff0040');
+    drawColoredZone(41, 49, '#ff9500');
+    drawColoredZone(52, 55, '#00ff15');
+    drawColoredZone(56, 68, '#00ffff');
+    drawColoredZone(69, 78, '#0095ff');
+
+    // Draws all targets
 	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
     
     // Draws the target label to be selected in the current trial. We include 
@@ -154,8 +166,7 @@ function printAndSavePerformance()
     }
     
     // Adds user performance results
-    let db_ref = database.ref('Lab4');
-    // let db_ref = database.ref('G' + GROUP_NUMBER);
+    let db_ref = database.ref('Lab 5');
     db_ref.push(attempt_data);
   }
 }
@@ -272,5 +283,29 @@ function windowResized()
 
     // Starts drawing targets immediately after we go fullscreen
     draw_targets = true;
+  }
+}
+
+// Draws the retangles that stay behind the targets
+function drawColoredZone(first, last, colour)
+{
+  fill(color(colour));
+  let firstX = targets[first].getX();
+  let lastX = targets[last].getX();
+  let firstY = targets[first].getY();
+  let lastY = targets[last].getY();
+  let width = targets[0].getWidth();
+  if (lastY - firstY)
+  {
+    rect(firstX - width/2, firstY - width/2, BIG_NUMBER, width, 100, 0, 0, 100);
+    let midY = targets[first+10].getY();
+    if (lastY - midY)
+    {
+      rect(0, midY - width/2, BIG_NUMBER, width, 0, 0, 0, 0);
+    }
+    rect(0, lastY - width/2, lastX + width/2, width, 0, 100, 100, 0);
+  } else
+  {
+    rect(firstX - width/2, firstY - width/2, lastX - firstX + width, width, 100, 100, 100, 100);
   }
 }

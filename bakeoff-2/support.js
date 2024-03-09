@@ -3,6 +3,15 @@
 let student_ID_form, display_size_form, start_button;                  // Initial input variables
 let student_ID, display_size;                                          // User input parameters
 
+// TODO: Temporary function
+function drawUserIDScreenTemp()
+{
+  background(color(0,0,0));                                          // sets background to black
+  start_button = createButton('START');
+  start_button.mouseReleased(startTestTemp);
+  start_button.position(width/2 - start_button.size().width/2, height/2 - start_button.size().height/2);
+}
+
 // Prints the initial UI that prompts that ask for student ID and screen size
 function drawUserIDScreen()
 { 
@@ -60,6 +69,15 @@ function validSize()
     alert("Please insert a valid display size (between 13 and 50)");
     return false;
   }
+}
+
+// TODO: Temporary function
+function startTestTemp()
+{
+  student_ID = 1001;
+  display_size = 16;
+  start_button.remove();
+  fullscreen(!fullscreen());
 }
 
 // Starts the test (i.e., target selection task)
