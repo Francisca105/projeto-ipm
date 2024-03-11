@@ -6,9 +6,24 @@ class Target
     this.x      = x;
     this.y      = y;
     this.width  = w;
-    this.label  = l.toLowerCase() /*l.toLowerCase().substring(0,2)+l.charAt(2).toUpperCase()+l.charAt(3).toUpperCase()+l.toLowerCase().substring(4)*/;
+    this.label  = label_capitalizer(l, 2,3)
     this.id     = id;
     this.color = color(155,155,155)
+
+    function label_capitalizer (l, ...n) {
+      let label = "";
+      let _l = l
+      let check = 0;
+
+      n.forEach(element => {
+        label += _l.substring(check, element) + _l.charAt(element).toUpperCase()
+        check = element+1
+      });
+
+      label += _l.substring(check)
+      
+      return label
+    }
   }
 
   getX() { return this.x;}
