@@ -100,5 +100,11 @@ class Target
     nd_l = nd_l.toUpperCase();
     let city = this.label.charAt(0)  + nd_l + this.label.substring(2);
     text(this.label, this.x, this.y);
+
+    textFont("Arial", 36);
+    fill(color(255, 255, 0));
+    textAlign(CENTER);
+    let label = this.label.toLowerCase()
+    text(label[1]/*+label[2]*/, this.x - this.width * 3/4, this.y + this.width/7);
   }
 }
