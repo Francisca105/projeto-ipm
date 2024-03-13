@@ -99,7 +99,10 @@ function draw()
     drawColoredZone(69, 78, '#0095ff');
 
     // Draws all targets
-	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
+	for (var i = 0; i < legendas.getRowCount(); i++) {
+    if (targets[i].clicked(mouseX, mouseY)) targets[i].draw(true);
+    else targets[i].draw(false);
+  }
     
     // Draws the target label to be selected in the current trial. We include 
     // a black rectangle behind the trial label for optimal contrast in case 
@@ -289,21 +292,25 @@ function windowResized()
 // Draws the retangles that stay behind the targets
 function drawColoredZone(first, last, colour)
 {
-  fill(color(colour));
   let firstX = targets[first].getX();
   let lastX = targets[last].getX();
   let firstY = targets[first].getY();
   let lastY = targets[last].getY();
   let width = targets[0].getWidth();
+
+  fill(0);
+  stroke(color(colour));
+  strokeWeight(2);
+
   if (lastY - firstY)
   {
     rect(firstX - width/2, firstY - width/2, BIG_NUMBER, width, 100, 0, 0, 100);
     let midY = targets[first+10].getY();
     if (lastY - midY)
     {
-      rect(0, midY - width/2, BIG_NUMBER, width, 0, 0, 0, 0);
+      rect(-10, midY - width/2, BIG_NUMBER, width, 0, 0, 0, 0);
     }
-    rect(0, lastY - width/2, lastX + width/2, width, 0, 100, 100, 0);
+    rect(-10, lastY - width/2, lastX + width/2, width, 0, 100, 100, 0);
   } else
   {
     rect(firstX - width/2, firstY - width/2, lastX - firstX + width, width, 100, 100, 100, 100);

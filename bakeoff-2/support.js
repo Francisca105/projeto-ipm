@@ -76,6 +76,7 @@ function startTestTemp()
 {
   student_ID = 1001;
   display_size = 16;
+  // display_size = 21.5;
   start_button.remove();
   fullscreen(!fullscreen());
 }

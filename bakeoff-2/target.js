@@ -6,7 +6,7 @@ class Target
     this.x      = x;
     this.y      = y;
     this.width  = w;
-    this.label  = label_capitalizer(l, 2,3)
+    this.label  = l; //label_capitalizer(l, 2,3)
     this.id     = id;
     this.color = color(155,155,155)
 
@@ -40,8 +40,13 @@ class Target
   // Draws the target (i.e., a circle)
   // and its label
 
-  draw()
+  draw(bool)
   {
+    // DO NOT CHANGE THE NEXT THREE LINES!
+    let display        = new Display({ diagonal: display_size }, window.screen);
+    PPI                = display.ppi;                      // calculates pixels per inch
+    PPCM               = PPI / 2.54;                       // calculates pixels per cm
+    
     let colors;
     let nd_l = this.label.charAt(1).toLowerCase();
     switch (nd_l) {
@@ -78,33 +83,39 @@ class Target
         break;
     }
 
-    let regex = /[șłš]/g;
-    if(this.label.match(regex)) {
-      stroke("#000000")
-      strokeWeight(1)
-    }
+    // let regex = /[șłš]/g;
+    // if(this.label.match(regex)) {
+    //   stroke("#000000")
+    //   strokeWeight(1)
+    // }
 
-    // Draw target
+    // Draws target
+    noStroke();
     fill(colors);
     circle(this.x, this.y, this.width);
     
-    // Draw inner circle to achieve the stroke effect
-    fill('#000');
+    // Draws inner circle to achieve the stroke effect
+    if (!bool) fill('#000');
+    else fill(colors);
     circle(this.x, this.y, this.width*0.9);
     
     // Draw label
-    noStroke();
-    textFont("Arial", 16);
+    textFont("Arial", 14);
     fill(color(255,255,255));
     textAlign(CENTER);
     nd_l = nd_l.toUpperCase();
     let city = this.label.charAt(0)  + nd_l + this.label.substring(2);
     text(this.label, this.x, this.y);
 
-    textFont("Arial", 36);
-    fill(color(255, 255, 0));
-    textAlign(CENTER);
-    let label = this.label.toLowerCase()
-    text(label[1]/*+label[2]*/, this.x - this.width * 3/4, this.y + this.width/7);
+    let id = this.id;
+    if (id == 1 || id == 28 || id == 39 || id == 42 || id == 51 || id == 52 || id == 53 || id == 57 || id == 70 || id == 80)
+    {
+      textFont("Arial", 26);
+      fill(color(255, 255, 0));
+      textAlign(CENTER, CENTER);
+      let label = this.label
+      if (label[1] == 'é') text(label[0]+'e', this.x - this.width * 17/24, this.y);
+      else text(label[0]+label[1], this.x - this.width * 17/24, this.y);
+    }
   }
 }
