@@ -34,12 +34,15 @@ const GRID_COLUMNS        = 10;     // We divide our 80 targets in a 8x10 grid
 
 // Some added constants
 const BIG_NUMBER          = 5000;   // used to create retangles that go till the end of the screen
+let last_id               = -1;
 
 // Ensures important data is loaded before the program starts
 function preload()
 {
   // id,name,...
   legendas = loadTable('legendas.csv', 'csv', 'header');
+
+  sound = loadSound('assets/mixkit-correct-answer-tone-2870.wav')
 }
 
 // Rearranges the data from the 'legendas.csv' file in alphabetical order
@@ -90,13 +93,13 @@ function draw()
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
 
     // Draws the retangles behind the targets
-    drawColoredZone(0, 26, '#6a00ff');
-    drawColoredZone(27, 37, '#ff00ff');
-    drawColoredZone(38, 40, '#ff0040');
-    drawColoredZone(41, 49, '#ff9500');
-    drawColoredZone(52, 55, '#00ff15');
-    drawColoredZone(56, 68, '#00ffff');
-    drawColoredZone(69, 78, '#0095ff');
+    drawColoredZone(0, 26, '#F94144');
+    drawColoredZone(27, 37, '#F3722C');
+    drawColoredZone(38, 40, '#F9C74F');
+    drawColoredZone(41, 49, '#90BE6D');
+    drawColoredZone(52, 55, '#F94144');
+    drawColoredZone(56, 68, '#F3722C');
+    drawColoredZone(69, 78, '#F9C74F');
 
     // Draws all targets
 	for (var i = 0; i < legendas.getRowCount(); i++) {
@@ -186,6 +189,8 @@ function mousePressed()
       // Check if the user clicked over one of the targets
       if (targets[i].clicked(mouseX, mouseY)) 
       {
+        sound.play();
+        last_id = i;
         // Checks if it was the correct target
         if (targets[i].id === trials[current_trial] + 1) hits++;
         else misses++;

@@ -51,35 +51,35 @@ class Target
     let nd_l = this.label.charAt(1).toLowerCase();
     switch (nd_l) {
       case 'a':
-        colors = '#6a00ff';
+        colors = color(249, 65, 68);
         break;
       case 'é':
       case 'e':
-        colors ='#ff00ff';
+        colors = color(243, 114, 44);
         break;
       case 'h':
-        colors = '#ff0040';
+        colors = color(249, 199, 79);
         break;
       case 'i':
-        colors = '#ff9500';
+        colors = color(144, 190, 109);
         break;
       case 'l':
-        colors = '#40380f';
+        colors = color(67, 170, 139);
         break;
       case 'n':
-        colors = '#0f400f';
+        colors = color(87, 117, 144);
         break;
       case 'o':
-        colors = '#00ff15';
+        colors = color(249, 65, 68);
         break;
       case 'r':
-        colors = '#00ffff';
+        colors = color(243, 114, 44);
         break;
       case 'u':
-        colors = '#0095ff';
+        colors = color(249, 199, 79);
         break;
       case 'y':
-        colors = '#0000fe';
+        colors = color(144, 190, 109);
         break;
     }
 
@@ -92,15 +92,25 @@ class Target
     // Draws target
     noStroke();
     fill(colors);
-    circle(this.x, this.y, this.width);
+    if (!bool) circle(this.x, this.y, this.width);
+    else circle(this.x, this.y, 1.2*this.width);
     
     // Draws inner circle to achieve the stroke effect
-    if (!bool) fill('#000');
-    else fill(colors);
-    circle(this.x, this.y, this.width*0.9);
+    if (!bool && last_id != this.id-1) {
+      fill('#000');
+      circle(this.x, this.y, this.width*0.9);
+    } else if (!bool) {
+      fill(colors);
+      circle(this.x, this.y, this.width*0.9);
+    }
+    else {
+      fill(colors);
+      circle(this.x, this.y, 1.2*this.width*0.9);
+    }
     
     // Draw label
-    textFont("Arial", 14);
+    if (!bool) textFont("Helvetica", 14);
+    else textFont("Helvetica", 20);
     fill(color(255,255,255));
     textAlign(CENTER);
     nd_l = nd_l.toUpperCase();
@@ -110,7 +120,7 @@ class Target
     let id = this.id;
     if (id == 1 || id == 28 || id == 39 || id == 42 || id == 51 || id == 52 || id == 53 || id == 57 || id == 70 || id == 80)
     {
-      textFont("Arial", 26);
+      textFont("Helvetica", 26);
       fill(color(255, 255, 0));
       textAlign(CENTER, CENTER);
       let label = this.label
