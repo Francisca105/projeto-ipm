@@ -303,9 +303,9 @@ function drawColoredZone(first, last, colour)
   let lastY = targets[last].getY();
   let width = targets[0].getWidth();
 
-  fill(0);
-  stroke(color(colour));
-  strokeWeight(2);
+  fill(color(colour));
+  // stroke(color(colour));
+  // strokeWeight(2);
 
   if (lastY - firstY)
   {
