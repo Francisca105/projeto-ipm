@@ -94,6 +94,11 @@ class Target
     fill(colors);
     if (!bool) circle(this.x, this.y, this.width);
     else circle(this.x, this.y, 1.2*this.width);
+
+    if(this.label.includes(' ')) {
+      stroke(color("#ffffff"))
+      strokeWeight(3)
+    }
     
     // Draws inner circle to achieve the stroke effect
     if (!bool && last_id != this.id-1) {
@@ -108,6 +113,7 @@ class Target
       circle(this.x, this.y, 1.2*this.width*0.9);
     }
     
+    noStroke()
     // Draw label
     if (!bool) textFont("Helvetica", 14);
     else textFont("Helvetica", 20);
