@@ -30,6 +30,8 @@ class Target
     PPI                = display.ppi;                      // calculates pixels per inch
     PPCM               = PPI / 2.54;                       // calculates pixels per cm
 
+    rectMode(CENTER);
+    fill(0);
     // Draw target
     if (this.hit) {
       stroke(255);
@@ -38,10 +40,15 @@ class Target
       stroke(colour);
       strokeWeight(2);
     }
-    fill(0);
     rectMode(CENTER);
     if (!hover) rect(this.x, this.y, this.width * 1.2, this.width * 0.9, 25);
     else rect(this.x, this.y, this.width * 1.6, this.width * 1.2, 25);
+    if (this.label.includes(' ')) {
+      if (!hover) rect(this.x, this.y, this.width * 1.05, this.width * 0.75, 20);
+      else rect(this.x, this.y, this.width * 1.45, this.width * 1.05, 20);
+      stroke(color("#FFFFFF"));
+      strokeWeight(2);
+    }
     
     // Draw label
     noStroke();
