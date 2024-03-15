@@ -211,7 +211,7 @@ function mousePressed()
           misses++;
         }
         
-        targets[i].hit = true;
+        targets[trials[current_trial]].hit = true;
 
         current_trial++;              // Move on to the next trial/target
         break;
