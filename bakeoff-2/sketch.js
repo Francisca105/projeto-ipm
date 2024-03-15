@@ -53,7 +53,7 @@ function setup()
   rearrangeData();
   
   randomizeTrials();         // randomize the trial order at the start of execution
-  drawUserIDScreenTemp();        // draws the user start-up screen (student ID and display size)
+  drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
 }
 
 // Rearranges the data from the 'legendas.csv' file in alphabetical order
@@ -180,7 +180,7 @@ function printAndSavePerformance()
     }
     
     // Adds user performance results
-    let db_ref = database.ref('Lab 5');
+    let db_ref = database.ref('Lab 5 ');
     db_ref.push(attempt_data);
   }
 }
