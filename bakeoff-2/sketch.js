@@ -7,7 +7,7 @@
 
 // Database (CHANGE THESE!)
 const GROUP_NUMBER        = 44;      // Add your group number here as an integer (e.g., 2, 3)
-const RECORD_TO_FIREBASE  = false;  // Set to 'true' to record user results to Firebase
+const RECORD_TO_FIREBASE  = true;  // Set to 'true' to record user results to Firebase
 
 // Pixel density and setup variables (DO NOT CHANGE!)
 let PPI, PPCM;
@@ -32,11 +32,16 @@ let targets               = [];
 const GRID_ROWS           = 8;      // We divide our 80 targets in a 8x10 grid
 const GRID_COLUMNS        = 10;     // We divide our 80 targets in a 8x10 grid
 
+const BIG_NUMBER          = 10000;
+
 // Ensures important data is loaded before the program starts
 function preload()
 {
   // id,name,...
   legendas = loadTable('legendas.csv', 'csv', 'header');
+
+  hit = loadSound('assets/mixkit-correct-answer-tone-2870.wav');
+  miss = loadSound('assets/mixkit-wrong-long-buzzer-954.wav');
 }
 
 // Runs once at the start
@@ -44,9 +49,32 @@ function setup()
 {
   createCanvas(700, 500);    // window size in px before we go into fullScreen()
   frameRate(60);             // frame rate (DO NOT CHANGE!)
+
+  rearrangeData();
   
   randomizeTrials();         // randomize the trial order at the start of execution
-  drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
+  drawUserIDScreenTemp();        // draws the user start-up screen (student ID and display size)
+}
+
+// Rearranges the data from the 'legendas.csv' file in alphabetical order
+// Uses the insertion sort
+function rearrangeData()
+{
+  legendas.setString(62, 'city', 'Bechar'); // temporarily takes away the special character
+  let i, j, key;
+  for (i = 2; i < legendas.getRowCount(); i++)
+  {
+    key = legendas.getString(i, 'city');
+    j = i - 1;
+
+    while (j >= 0 && legendas.getString(j, 'city') > key)
+    {
+      legendas.setString(j + 1, 'city', legendas.getString(j, 'city'));
+      j = j - 1;
+    }
+    legendas.setString(j + 1, 'city', key);
+  }
+  legendas.setString(27, 'city', 'Béchar'); // gives back the special character
 }
 
 // Runs every frame and redraws the screen
@@ -62,16 +90,37 @@ function draw()
     fill(color(255,255,255));
     textAlign(LEFT);
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
+
+    // Draws the retangles behind the targets
+    drawColoredZone(0, 26, '#F94144');
+    drawColoredZone(27, 37, '#F3722C');
+    drawColoredZone(38, 40, '#F9C74F');
+    drawColoredZone(41, 49, '#90BE6D');
+    drawColoredZone(52, 55, '#F94144');
+    drawColoredZone(56, 68, '#F3722C');
+    drawColoredZone(69, 78, '#F9C74F');
         
     // Draw all targets
-	for (var i = 0; i < legendas.getRowCount(); i++) targets[i].draw();
+	for (var i = 0; i < legendas.getRowCount(); i++) {
+    let hover = targets[i].clicked(mouseX, mouseY);
+    if (i < 27) targets[i].draw('#F94144', hover);
+    else if (i > 26 && i < 38) targets[i].draw('#F3722C', hover);
+    else if (i > 37 && i < 41) targets[i].draw('#F9C74F', hover);
+    else if (i > 40 && i < 50) targets[i].draw('#90BE6D', hover);
+    else if (i == 50) targets[i].draw('#43AA8B', hover);
+    else if (i == 51) targets[i].draw('#577590', hover);
+    else if (i > 51 && i < 56) targets[i].draw('#F94144', hover);
+    else if (i > 55 && i < 69) targets[i].draw('#F3722C', hover);
+    else if (i > 68 && i < 79) targets[i].draw('#F9C74F', hover);
+    else targets[i].draw('#90BE6D', hover);
+  }
     
     // Draws the target label to be selected in the current trial. We include 
     // a black rectangle behind the trial label for optimal contrast in case 
     // you change the background colour of the sketch (DO NOT CHANGE THESE!)
     fill(color(0,0,0));
-    rect(0, height - 40, width, 40);
- 
+    rect(0, height - 10, width, 40);
+
     textFont("Arial", 20); 
     fill(color(255,255,255)); 
     textAlign(CENTER); 
@@ -131,7 +180,7 @@ function printAndSavePerformance()
     }
     
     // Adds user performance results
-    let db_ref = database.ref('G' + GROUP_NUMBER);
+    let db_ref = database.ref('Lab 5');
     db_ref.push(attempt_data);
   }
 }
@@ -149,9 +198,18 @@ function mousePressed()
       if (targets[i].clicked(mouseX, mouseY)) 
       {
         // Checks if it was the correct target
-        if (targets[i].id === trials[current_trial] + 1) hits++;
-        else misses++;
+        if (targets[i].id === trials[current_trial] + 1) {
+          hit.play();
+          hits++;
+        }
+
+        else {
+          miss.play();
+          misses++;
+        }
         
+        targets[i].hit = true;
+
         current_trial++;              // Move on to the next trial/target
         break;
       }
@@ -249,4 +307,34 @@ function windowResized()
     // Starts drawing targets immediately after we go fullscreen
     draw_targets = true;
   }
+}
+
+// Draws the retangles that stay behind the targets
+function drawColoredZone(first, last, colour)
+{
+  let firstX = targets[first].getX();
+  let lastX = targets[last].getX();
+  let firstY = targets[first].getY();
+  let lastY = targets[last].getY();
+  let width = targets[0].getWidth();
+
+  fill(colour);
+  stroke(colour);
+  strokeWeight(2);
+
+  rectMode(CORNER);
+  if (lastY - firstY)
+  {
+    rect(firstX - width/2 * 1.2, firstY - width/2 * 0.9, BIG_NUMBER, width * 0.9, 25, 0, 0, 25);
+    let midY = targets[first+10].getY();
+    if (lastY - midY)
+    {
+      rect(-10, midY - width/2 * 0.9, BIG_NUMBER, width * 0.9, 0, 0, 0, 0);
+    }
+    rect(-10, lastY - width/2 * 0.9, lastX + width/2 * 1.2, width * 0.9, 0, 25, 25, 0);
+  } else
+  {
+    rect(firstX - width/2 * 1.2, firstY - width/2 * 0.9, lastX - firstX + width * 1.2, width * 0.9, 25, 25, 25, 25);
+  }
+  noStroke();
 }
