@@ -31,14 +31,29 @@ class Target
     PPCM               = PPI / 2.54;                       // calculates pixels per cm
 
     // Draw target
-    if (this.hit) {
-      stroke(255);
-      strokeWeight(2);
+    if (rand) {
+      if (this.hit) {
+        stroke(255);
+        strokeWeight(2);
+        if (!attempt) fill(0);
+        else fill(colour);
+      } else if (!attempt) {
+        stroke(colour);
+        strokeWeight(2);
+        fill(0);
+      } else fill(colour);
     } else {
-      stroke(colour);
-      strokeWeight(2);
+      if (this.hit) {
+        stroke(255);
+        strokeWeight(2);
+        if (attempt) fill(0);
+        else fill(colour);
+      } else if (attempt) {
+        stroke(colour);
+        strokeWeight(2);
+        fill(0);
+      } else fill(colour);
     }
-    fill(0);
     rectMode(CENTER);
     if (!hover) rect(this.x, this.y, this.width * 1.2, this.width * 0.9, 25);
     else rect(this.x, this.y, this.width * 1.6, this.width * 1.2, 25);

@@ -33,6 +33,7 @@ const GRID_ROWS           = 8;      // We divide our 80 targets in a 8x10 grid
 const GRID_COLUMNS        = 10;     // We divide our 80 targets in a 8x10 grid
 
 const BIG_NUMBER          = 10000;
+let rand;
 
 // Ensures important data is loaded before the program starts
 function preload()
@@ -51,6 +52,8 @@ function setup()
   frameRate(60);             // frame rate (DO NOT CHANGE!)
 
   rearrangeData();
+
+  rand = round(random(0, 1));
   
   randomizeTrials();         // randomize the trial order at the start of execution
   drawUserIDScreenTemp();        // draws the user start-up screen (student ID and display size)
@@ -226,6 +229,7 @@ function mousePressed()
       // If there's an attempt to go create a button to start this
       if (attempt < 2)
       {
+        for (var i = 0; i < legendas.getRowCount(); i++) targets[i].hit = false;
         continue_button = createButton('START 2ND ATTEMPT');
         continue_button.mouseReleased(continueTest);
         continue_button.position(width/2 - continue_button.size().width/2, height/2 - continue_button.size().height/2);
@@ -318,7 +322,13 @@ function drawColoredZone(first, last, colour)
   let lastY = targets[last].getY();
   let width = targets[0].getWidth();
 
-  fill(colour);
+  if (rand) {
+    if (!attempt) fill(colour);
+    else fill(0);
+  } else {
+    if (attempt) fill(colour);
+    else fill(0);
+  }
   stroke(colour);
   strokeWeight(2);
 
