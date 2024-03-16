@@ -46,7 +46,8 @@ function drawUserIDScreen()
   // 3. Start button
   start_button = createButton('START');
   start_button.mouseReleased(startTest);
-  start_button.position(width/2 - start_button.size().width/2, height/2 - start_button.size().height/2);
+  start_button.position(width/2 - start_button.size().width/2 - 450, height/2 - start_button.size().height/2 - 200);
+
 }
 
 // Verifies if the student ID is a number, and within an acceptable range

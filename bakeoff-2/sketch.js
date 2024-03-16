@@ -42,18 +42,38 @@ function preload()
 
   hit = loadSound('assets/mixkit-correct-answer-tone-2870.wav');
   miss = loadSound('assets/mixkit-wrong-long-buzzer-954.wav');
+
+  img = loadImage('assets/ipm.png')
 }
 
 // Runs once at the start
 function setup()
 {
-  createCanvas(700, 500);    // window size in px before we go into fullScreen()
+  createCanvas(1366, 768);    // window size in px before we go into fullScreen()
   frameRate(60);             // frame rate (DO NOT CHANGE!)
 
   rearrangeData();
   
   randomizeTrials();         // randomize the trial order at the start of execution
   drawUserIDScreen();        // draws the user start-up screen (student ID and display size)
+
+  fill(255); // Set text color to white
+  textAlign(CENTER); // Center text horizontally
+  textSize(16); // Set text size
+  text("Como jogar?", width / 2, height - 520);
+  textSize(12)
+  text("Eu vou ser o melhor!", width / 2, height - 500);
+  textSize(16)
+  fill(color(52, 131, 235))
+  text("1.", width / 2 - 270 , height - 470)
+  fill(255)
+  text("As cidades estão organizadas por ordem alfabética de cima para baixo,\n trocando a cor dos alvos sempre que a segunda letra muda.", width / 2, height - 470);
+  fill(color(52, 131, 235))
+  text("2.", width / 2 - 270 , height - 420)
+  fill(255)
+  text("Tens também as primeiras 3 letras de cada cidade destacadas\n na parte de cima do alvo.", width / 2, height - 420);
+  imageMode(CENTER)
+  image(img, width / 2, height - 200, 683 , 384);
 }
 
 // Rearranges the data from the 'legendas.csv' file in alphabetical order
