@@ -112,7 +112,11 @@ function draw()
     text("Trial " + (current_trial + 1) + " of " + trials.length, 50, 20);
 
     // Draws the retangles behind the targets
-    drawColoredZone(0, 26, '#F94144');
+    drawColoredZone(0, 3, '#F94144');
+    drawColoredZone(3, 6, '#A94144');
+    drawColoredZone(6, 26, '#F94144');
+    drawColoredZone(16, 22, '#A94144');
+    drawColoredZone(22, 26, '#F94144');
     drawColoredZone(27, 37, '#F3722C');
     drawColoredZone(38, 40, '#F9C74F');
     drawColoredZone(41, 49, '#90BE6D');
@@ -123,7 +127,9 @@ function draw()
     // Draw all targets
 	for (var i = 0; i < legendas.getRowCount(); i++) {
     let hover = targets[i].clicked(mouseX, mouseY);
-    if (i < 27) targets[i].draw('#F94144', hover);
+    if (i < 27) {
+      targets[i].draw('#F94144', hover);
+    }
     else if (i > 26 && i < 38) targets[i].draw('#F3722C', hover);
     else if (i > 37 && i < 41) targets[i].draw('#F9C74F', hover);
     else if (i > 40 && i < 50) targets[i].draw('#90BE6D', hover);
@@ -139,7 +145,7 @@ function draw()
     // a black rectangle behind the trial label for optimal contrast in case 
     // you change the background colour of the sketch (DO NOT CHANGE THESE!)
     fill(color(0,0,0));
-    rect(0, height - 10, width, 40);
+    rect(0, height - 40, width, 40);
 
     textFont("Arial", 20); 
     fill(color(255,255,255)); 
